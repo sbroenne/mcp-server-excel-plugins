@@ -1,0 +1,24 @@
+# Binaries (downloaded, not committed)
+plugins/excel-mcp/bin/mcp-excel.exe
+plugins/excel-mcp/bin/*.dll
+
+# Build artifacts
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+*.test.md
+scratch/
+temp/
