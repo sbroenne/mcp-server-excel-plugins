@@ -7,18 +7,18 @@ This repository is the publish target for plugin artifacts from [`sbroenne/mcp-s
 ## Plugins
 
 - **excel-mcp** — MCP server plugin for conversational Excel automation
-- **excel-cli** — CLI skill plugin for scripting and batch workflows
+- **excel-cli** — CLI skill plugin for scripting and coding-agent workflows
 
 ## Repository Layout
 
 ```text
+.github/plugin/marketplace.json
 plugins/
 ├── excel-mcp/
 └── excel-cli/
-marketplace.json
 ```
 
-`marketplace.json` is the marketplace manifest. The `plugins/` directory contains the distributable plugin templates and published content used by the source repo's `publish-plugins.yml` workflow.
+The canonical marketplace manifest lives at `.github/plugin/marketplace.json`. The `plugins/` directory contains the distributable plugin bundles published by the source repo's `publish-plugins.yml` workflow.
 
 ## Install
 
@@ -27,15 +27,17 @@ marketplace.json
 copilot plugin marketplace add sbroenne/mcp-server-excel-plugins
 
 # Install one or both plugins
-copilot plugin install excel-mcp@mcp-server-excel
-copilot plugin install excel-cli@mcp-server-excel
+copilot plugin install excel-mcp@mcp-server-excel-plugins
+copilot plugin install excel-cli@mcp-server-excel-plugins
 ```
+
+The `excel-cli` plugin is skill-only. Install `excelcli` separately from the main release ZIP or NuGet tool if you want the command on PATH.
 
 ## Notes
 
 - **Windows only** — ExcelMcp depends on Microsoft Excel COM automation.
-- **excel-mcp** downloads the MCP server binary separately via its bundled helper scripts.
-- **excel-cli** expects `excelcli.exe` to be installed separately.
+- **excel-mcp** includes MCP configuration plus helper scripts for the ExcelMcp MCP server.
+- **excel-cli** provides the skill package only; install `excelcli` separately from the source repo releases if needed.
 
 ## Source and Support
 

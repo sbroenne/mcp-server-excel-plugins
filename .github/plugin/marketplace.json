@@ -1,0 +1,31 @@
+{
+  "name": "mcp-server-excel-plugins",
+  "metadata": {
+    "description": "Windows-only GitHub Copilot CLI plugins for Excel automation with ExcelMcp.",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Stefan Brönner",
+    "email": "3026464+sbroenne@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "excel-mcp",
+      "source": "./plugins/excel-mcp",
+      "description": "Windows-only Excel automation via the ExcelMcp MCP server for conversational AI assistants.",
+      "version": "1.8.46",
+      "skills": [
+        "./plugins/excel-mcp/skills/excel-mcp"
+      ]
+    },
+    {
+      "name": "excel-cli",
+      "source": "./plugins/excel-cli",
+      "description": "Windows-only Excel automation skill for coding agents using excelcli.exe.",
+      "version": "1.8.46",
+      "skills": [
+        "./plugins/excel-cli/skills/excel-cli"
+      ]
+    }
+  ]
+}

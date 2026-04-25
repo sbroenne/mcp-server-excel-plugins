@@ -1,6 +1,6 @@
 {
   "name": "excel-mcp",
-  "version": "0.0.1",
+  "version": "1.8.46",
   "displayName": "Excel MCP Server",
   "description": "Windows-only Excel automation via the ExcelMcp MCP server for conversational AI assistants.",
   "publisher": "sbroenne",
