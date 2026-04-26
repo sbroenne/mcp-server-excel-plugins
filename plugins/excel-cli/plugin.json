@@ -1,6 +1,6 @@
 {
   "name": "excel-cli",
-  "version": "1.8.47",
+  "version": "1.8.49",
   "displayName": "Excel CLI Skill",
   "description": "Windows-only Excel automation skill for coding agents using excelcli.exe.",
   "publisher": "sbroenne",
