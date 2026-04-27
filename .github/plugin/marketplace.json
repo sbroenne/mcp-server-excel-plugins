@@ -12,8 +12,8 @@
     {
       "name": "excel-mcp",
       "source": "./plugins/excel-mcp",
-      "description": "Windows-only Excel automation via the ExcelMcp MCP server for conversational AI assistants.",
-      "version": "1.8.49",
+      "description": "Windows-only Excel automation plugin that bootstraps the latest ExcelMcp MCP runtime on first use.",
+      "version": "1.8.51",
       "skills": [
         "./plugins/excel-mcp/skills/excel-mcp"
       ]
@@ -21,8 +21,8 @@
     {
       "name": "excel-cli",
       "source": "./plugins/excel-cli",
-      "description": "Windows-only Excel automation skill for coding agents using excelcli.exe.",
-      "version": "1.8.49",
+      "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
+      "version": "1.8.51",
       "skills": [
         "./plugins/excel-cli/skills/excel-cli"
       ]

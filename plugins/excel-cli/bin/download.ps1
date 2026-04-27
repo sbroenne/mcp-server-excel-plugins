@@ -8,8 +8,8 @@ param(
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
-$PluginName = "excel-mcp"
-$ExecutableName = "mcp-excel.exe"
+$PluginName = "excel-cli"
+$ExecutableName = "excelcli.exe"
 $RepoOwner = "sbroenne"
 $RepoName = "mcp-server-excel"
 $ReleaseApiUrl = "https://api.github.com/repos/$RepoOwner/$RepoName/releases/latest"
@@ -68,7 +68,7 @@ function Get-State {
 
         return $loadedState
     } catch {
-        Write-Status "[excel-mcp] Ignoring unreadable bootstrap state and starting fresh." "DarkYellow"
+        Write-Status "[excel-cli] Ignoring unreadable bootstrap state and starting fresh." "DarkYellow"
         return New-State
     }
 }
@@ -82,17 +82,17 @@ function Save-State {
 }
 
 function Get-LatestReleaseMetadata {
-    Write-Status "[excel-mcp] Checking latest GitHub release..." "Cyan"
+    Write-Status "[excel-cli] Checking latest GitHub release..." "Cyan"
 
     try {
         $headers = @{
             Accept       = "application/vnd.github+json"
-            "User-Agent" = "excel-mcp-plugin-bootstrap"
+            "User-Agent" = "excel-cli-plugin-bootstrap"
         }
 
         $release = Invoke-RestMethod -Uri $ReleaseApiUrl -Headers $headers
         $releaseVersion = $release.tag_name -replace '^v', ''
-        $assetName = "ExcelMcp-MCP-Server-$releaseVersion-windows.zip"
+        $assetName = "ExcelMcp-CLI-$releaseVersion-windows.zip"
         $asset = $release.assets | Where-Object { $_.name -eq $assetName } | Select-Object -First 1
 
         if ($null -eq $asset) {
@@ -106,7 +106,7 @@ function Get-LatestReleaseMetadata {
             AssetUrl = $asset.browser_download_url
         }
     } catch {
-        throw "Failed to resolve the latest ExcelMcp MCP server release. $_`nRelease page: $ReleasePageUrl"
+        throw "Failed to resolve the latest excelcli release. $_`nRelease page: $ReleasePageUrl"
     }
 }
 
@@ -145,10 +145,10 @@ function Ensure-LatestRuntime {
 
     $downloadRequired = $Force -or -not (Test-Path $downloadZipPath) -or $State.cachedReleaseTag -ne $State.latestTag
     if ($downloadRequired) {
-        Write-Status "[excel-mcp] Downloading $($State.assetName)..." "Yellow"
+        Write-Status "[excel-cli] Downloading $($State.assetName)..." "Yellow"
         Invoke-WebRequest -Uri $State.assetUrl -OutFile $downloadZipPath
     } else {
-        Write-Status "[excel-mcp] Reusing cached package $($State.assetName)." "DarkGray"
+        Write-Status "[excel-cli] Reusing cached package $($State.assetName)." "DarkGray"
     }
 
     $binaryPath = Resolve-BinaryPath -State $State
@@ -161,7 +161,7 @@ function Ensure-LatestRuntime {
     }
 
     Ensure-Directory -Path $releaseDir
-    Write-Status "[excel-mcp] Extracting $($State.assetName)..." "Yellow"
+    Write-Status "[excel-cli] Extracting $($State.assetName)..." "Yellow"
     Expand-Archive -Path $downloadZipPath -DestinationPath $releaseDir -Force
 
     $binary = Get-ChildItem -Path $releaseDir -Recurse -File -Filter $ExecutableName | Select-Object -First 1
@@ -177,7 +177,7 @@ function Ensure-LatestRuntime {
 }
 
 if ($env:OS -ne "Windows_NT") {
-    throw "excel-mcp plugin bootstrap is Windows-only."
+    throw "excel-cli plugin bootstrap is Windows-only."
 }
 
 $state = Get-State
@@ -193,7 +193,7 @@ if ($sessionNeedsFreshnessCheck) {
     $state.assetUrl = $latest.AssetUrl
     Save-State -State $state
 } else {
-    Write-Status "[excel-mcp] Freshness already checked for this Copilot session." "DarkGray"
+    Write-Status "[excel-cli] Freshness already checked for this Copilot session." "DarkGray"
 }
 
 $binaryPath = Ensure-LatestRuntime -State $state
@@ -207,7 +207,7 @@ if ($PassThru) {
 
 $binaryInfo = Get-Item $binaryPath
 Write-Status
-Write-Status "✅ ExcelMcp MCP runtime ready." "Green"
+Write-Status "✅ excelcli runtime ready." "Green"
 Write-Status "   Release: $($state.latestTag)" "Gray"
 Write-Status "   Binary:  $binaryPath" "Gray"
 Write-Status "   Size:    $([math]::Round($binaryInfo.Length / 1MB, 2)) MB" "Gray"
