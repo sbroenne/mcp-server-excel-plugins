@@ -13,7 +13,7 @@
       "name": "excel-mcp",
       "source": "./plugins/excel-mcp",
       "description": "Windows-only Excel automation plugin that bootstraps the latest ExcelMcp MCP runtime on first use.",
-      "version": "1.8.51",
+      "version": "1.8.52",
       "skills": [
         "./plugins/excel-mcp/skills/excel-mcp"
       ]
@@ -22,7 +22,7 @@
       "name": "excel-cli",
       "source": "./plugins/excel-cli",
       "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
-      "version": "1.8.51",
+      "version": "1.8.52",
       "skills": [
         "./plugins/excel-cli/skills/excel-cli"
       ]
