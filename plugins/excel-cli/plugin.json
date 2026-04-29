@@ -1,6 +1,6 @@
 {
   "name": "excel-cli",
-  "version": "1.8.52",
+  "version": "1.8.55",
   "displayName": "Excel CLI Plugin",
   "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
   "publisher": "sbroenne",
