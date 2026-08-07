@@ -1,6 +1,6 @@
 {
   "name": "excel-mcp",
-  "version": "1.10.0",
+  "version": "1.10.4",
   "displayName": "Excel MCP Plugin",
   "description": "Windows-only Excel automation plugin that bootstraps the latest ExcelMcp MCP runtime on first use.",
   "publisher": "sbroenne",
