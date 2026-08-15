@@ -1,4 +1,4 @@
-# Excel Charts Reference
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# Excel Charts Reference
 
 ## Tools
 
@@ -37,6 +37,11 @@ Specialized: `Waterfall`, `Funnel`, `Treemap`, `Sunburst`, `BoxWhisker`, `Histog
 - `add-series`: Add data series with valuesRange and optional categoryRange
 - `remove-series`: Remove series by index (1-based)
 - `set-source-range`: Replace entire chart data source
+- `set-series-chart-type`: Assign a chart type to one regular-chart series for combo charts
+
+### Plot Behavior
+- `get-plot-options`: Read row/column orientation, blank-cell display, and hidden-cell plotting
+- `set-plot-options`: Configure `plotBy`, `displayBlanksAs`, and `plotVisibleOnly`
 
 ### Titles and Labels
 - `set-title`: Set chart title (empty string hides)
@@ -54,7 +59,7 @@ Specialized: `Waterfall`, `Funnel`, `Treemap`, `Sunburst`, `BoxWhisker`, `Histog
 - `set-gridlines`: Show/hide major/minor gridlines
 
 ### Series Formatting
-- `set-series-format`: Configure markers (style, size, foregroundColor, backgroundColor)
+- `set-series-format`: Configure markers plus material fill, transparency, line color, and line weight
 
 ### Trendlines
 - `list-trendlines`: View all trendlines on a series
@@ -65,6 +70,8 @@ Specialized: `Waterfall`, `Funnel`, `Treemap`, `Sunburst`, `BoxWhisker`, `Histog
 ### Styling
 - `show-legend`: Control legend visibility and position (Bottom, Corner, Top, Right, Left)
 - `set-style`: Apply Excel chart styles (1-48)
+- `set-area-format`: Format the chart area or plot area fill and border
+- `set-placement`: Configure cell anchoring plus print, lock, and rounded-corner behavior
 
 ## Trendline Details
 
@@ -142,14 +149,14 @@ Result example with collision warning:
 {
   "success": true,
   "chartName": "Chart 1",
-  "message": "OVERLAP WARNING: Chart overlaps data area $A$1:$D$20. Use chart fit-to-range to reposition, or screenshot capture-sheet to verify layout."
+  "message": "OVERLAP WARNING: Chart overlaps data area $A$1:$D$20. Use chart fit-to-range to reposition, then screenshot capture with an explicit range to verify layout."
 }
 ```
 
 **If you see an overlap warning:**
 1. Use `chart(fit-to-range, chartName, rangeAddress='F2:K15')` to reposition
 2. Or use `chart(move, chartName, left=..., top=...)` to adjust
-3. Always follow up with `screenshot(capture-sheet)` to verify
+3. Always follow up with `screenshot(capture, rangeAddress='A1:M25')` to include and verify the chart
 
 ### Position Estimates
 - Rows: ~15 points per row (varies with row height)
@@ -160,7 +167,7 @@ Result example with collision warning:
 1. **Preferred**: Use `targetRange='F2:K15'` in create call — avoids all overlap issues
 2. **Alternative**: Omit position — auto-positioning places chart below content
 3. **Manual**: `get-used-range` → calculate coordinates → specify left/top
-4. **Always verify**: Use `screenshot(capture-sheet)` to visually confirm layout
+4. **Always verify**: Use `screenshot(capture, rangeAddress='A1:M25')` to visually confirm layout
 
 ## Multi-Chart Layout (CRITICAL)
 
@@ -174,11 +181,11 @@ chart(create-from-range, ..., targetRange='A12:F25')   # Top-left
 chart(create-from-range, ..., targetRange='G12:L25')   # Top-right
 chart(create-from-range, ..., targetRange='A27:F40')   # Bottom-left
 chart(create-from-range, ..., targetRange='G27:L40')   # Bottom-right
-screenshot(capture-sheet) → Verify no overlaps
+screenshot(capture, rangeAddress='A1:M40') → Verify no overlaps
 ```
 
 ### Rules
 - **Use targetRange for every chart** in multi-chart layouts — auto-positioning stacks vertically
 - Leave at least 1-2 rows/columns gap between charts
 - If any chart result includes an overlap warning, fix it before creating the next chart
-- Take a final `screenshot(capture-sheet)` to verify the complete layout
+- Take a final `screenshot(capture, rangeAddress='A1:M40')` to verify the complete layout

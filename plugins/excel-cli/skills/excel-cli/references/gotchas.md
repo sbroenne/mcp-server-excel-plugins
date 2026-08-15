@@ -1,4 +1,4 @@
-# Gotchas & Known Limits
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# Gotchas & Known Limits
 
 Real architectural and behavioral limits you'll encounter. Knowing these saves debugging time.
 
@@ -79,6 +79,14 @@ When you write formulas with `range(action: 'set-formulas')`, they don't automat
 2. calculation_mode(action: 'calculate')  → Now recalculate
 3. range(action: 'get-values', ...)       → Read calculated results
 ```
+
+## Python in Excel Requires Microsoft 365 Entitlement
+
+`pythoninexcel` runs code in Microsoft's cloud sandbox. It requires a licensed Microsoft 365 account with Python in Excel enabled and internet access; perpetual-license Excel and offline sessions cannot run `=PY()` formulas.
+
+When Excel evaluates a `PY()` formula as `#NAME?`, both `set-formula` and `get-result` return a clear unavailable-feature error. Do not retry that condition as if calculation were pending. `#BUSY!`, `#CONNECT!`, and `#BLOCKED!` are transient cloud states and retain retry semantics.
+
+Python cloud startup can take several minutes. Prefer an asynchronous workflow: set the formula, continue other workbook work, then call `get-result` later. For the CLI, `--max-wait-seconds` must be at least 1 and shorter than the session's operation timeout; do not use a polling wait equal to or longer than the session timeout.
 
 ## File Locking Across Sessions
 

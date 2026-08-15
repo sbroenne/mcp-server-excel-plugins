@@ -1,4 +1,4 @@
-# datamodel - Server Quirks
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# datamodel - Server Quirks
 
 **PREREQUISITE: Tables must be added to Data Model first!**
 
@@ -48,11 +48,11 @@ datamodel(evaluate, daxQuery="...")               # Returns NEW values!
 | Feature | Power BI/SSAS | Excel Power Pivot | Workaround |
 |---------|---------------|-------------------|------------|
 | Calculated Tables | DAX: `MyTable = FILTER(...)` | NOT SUPPORTED | Use Power Query to create the table |
-| Calculated Columns | DAX: `Table[Col] = ...` | NO COM API access | Use Power Query or DAX measures |
+| Calculated Columns | DAX: `Table[Col] = ...` | Read-only names/types; no COM formula or mutation API | Use Power Query or DAX measures |
 | Measures | Full support | Full support | - |
 | Relationships | Full support | Full support | - |
 
-**Key Insight**: Excel's COM API cannot create or modify calculated columns. If you need computed columns:
+**Key Insight**: `ModelTableColumn` exposes only `Name`, `DataType`, and `Parent` in Excel's PIA. `list-columns` and `read-table` return both the raw `XlParameterDataType` value and its readable name. Excel's COM API cannot read a calculated-column formula or create, modify, or delete calculated columns. If you need computed columns:
 1. **Preferred**: Add the column in Power Query (computed at refresh time)
 2. **Alternative**: Use a DAX measure instead (computed at query time)
 
@@ -64,19 +64,21 @@ datamodel(evaluate, daxQuery="...")               # Returns NEW values!
 | External file (CSV, etc.) | powerquery with loadDestination='data-model' |
 | Database/web source | powerquery with loadDestination='data-model' |
 
-**Automatic DAX Formatting**:
+**DAX Formatting**:
 
-DAX formulas are automatically formatted on WRITE operations only (create-measure, update-measure) using the official Dax.Formatter library (SQLBI). Read operations (list-measures, read) return raw DAX as stored in Excel. Formatting adds ~100-500ms network latency per write operation but ensures consistent, professional code formatting. If formatting fails (network issues, API errors), the original DAX is saved unchanged - operations never fail due to formatting.
+DAX formulas are preserved exactly by default on WRITE operations (create-measure, update-measure), subject to Excel locale separator translation. Set `formatDax=true` only with explicit user consent; it sends DAX to daxformatter.com. Remote formatting adds ~100-500ms network latency per write operation. If formatting fails (network issues, API errors), the original DAX is saved unchanged - operations never fail due to formatting.
 
 **Action disambiguation**:
 
 - list-tables: List all tables currently in the Data Model
 - list-measures: List all DAX measures (returns raw DAX from Excel)
-- create-measure: Create a new DAX measure (DAX auto-formatted before saving)
-- update-measure: Modify existing measure's formula/format/description (DAX auto-formatted before saving)
+- create-measure: Create a new DAX measure (DAX preserved by default; `formatDax=true` opts into remote formatting)
+- update-measure: Modify existing measure's formula/format/description (DAX preserved by default; `formatDax=true` opts into remote formatting)
 - delete-measure: Remove a measure
 - delete-table: Remove table AND ALL its measures (DESTRUCTIVE!)
 - read-info: Get Data Model metadata (culture, compatibility level)
+- read-connection: Get the embedded model connection name/type, ModelConnection command metadata, and connected table names
+- read-table: Get table columns and source connection metadata
 - refresh: Refresh all Data Model data from sources
 - **evaluate**: Execute DAX EVALUATE queries and return tabular results (read-only, no side effects)
 - **execute-dmv**: Execute DMV queries for metadata discovery (SELECT * FROM $SYSTEM.*)
@@ -227,5 +229,6 @@ A PivotChart is a single object connected to the Data Model. Creating a PivotTab
 
 - 2-minute auto-timeout on Data Model operations
 - Table names in Data Model may differ from worksheet (check list-tables)
-- Refresh refreshes ALL tables, not individual ones
+- Refresh is synchronous and can target the whole model or one table; Excel exposes no live model/table `Refreshing` status through COM
+- `ModelTable.LastRefresh` is missing from the Excel PIA and unavailable at runtime in supported Excel builds, so no reliable model-table refresh timestamp can be reported
 - Measure names must be unique across entire Data Model (not per-table)

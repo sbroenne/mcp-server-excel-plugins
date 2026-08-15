@@ -1,5 +1,4 @@
-````markdown
-# pivottable - Server Quirks
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# pivottable - Server Quirks
 
 ## CRITICAL: Required Parameters
 
@@ -65,6 +64,13 @@ powerquery(refresh, ...)     # Refreshes Power Query AND Data Model
 # PivotTables connected to Data Model auto-refresh
 ```
 
+## PivotCache Options
+
+- `pivottable(get-cache-options)`: Read refresh, retained-item, optimization, and saved-source settings.
+- `pivottable(set-cache-options)`: Set `enableRefresh`, `refreshOnFileOpen`, `missingItemsLimit`, `optimizeCache`, or `saveSourceData`.
+- `missingItemsLimit` values: `Default`, `None`, `Max`, `Max2`.
+- Deleted-item retention applies only to regular PivotTables. OLAP/Data Model caches manage members in the model.
+
 ## Field Configuration
 
 ### Row/Column/Value Fields
@@ -77,6 +83,24 @@ When creating PivotTables, configure fields in order:
 5. **Refresh to update display**: `pivottable(refresh, pivotTableName="...")`
 
 **IMPORTANT**: Field operations are structural only - they modify the PivotTable layout but don't trigger visual refresh. Call `pivottable(refresh)` after configuring all fields to update the display. This is especially important for OLAP/Data Model PivotTables.
+
+### Manual Grouping
+
+```
+pivottable_field(group-items, fieldName="Region", itemNames=["North", "South"], groupName="Core Regions")
+# Use groupedFieldName from the result:
+pivottable_field(ungroup-field, groupedFieldName="Region2")
+```
+
+Manual grouping requires a regular PivotTable and a field already placed in the Row or Column area. OLAP/Data Model PivotTables must add grouping columns in the model.
+
+### Drill Through
+
+```
+pivottable(drill-through, pivotTableName="SalesPivot", cellAddress="G4")
+```
+
+The target must be a value cell in a regular PivotTable data body. Excel creates a new worksheet containing the underlying source rows. OLAP/Data Model drill-through is provider-dependent and intentionally not exposed as a deterministic operation.
 
 ### Aggregation Functions for Value Fields
 
@@ -135,5 +159,3 @@ The `layoutStyle` parameter controls PivotTable appearance:
 | "Field not found" | Typo or Data Model not refreshed | Refresh Data Model, check field names |
 | Data doesn't update | Source changed without refresh | Call `pivottable(refresh)` |
 | DAX measures missing | Created on worksheet PivotTable | Use `create-from-datamodel` |
-
-````

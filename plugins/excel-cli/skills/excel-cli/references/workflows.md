@@ -1,4 +1,4 @@
-# Excel MCP Server - Key Constraints
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# Excel MCP Server - Key Constraints
 
 These are the critical constraints and workarounds specific to Excel automation via COM.
 
@@ -58,5 +58,5 @@ After Power Query: powerquery list, powerquery view
 After refresh:     datamodel list-tables
 After measure:     datamodel list-measures, datamodel evaluate
 After relationship: datamodel_relationship list-relationships
-After chart/layout: screenshot capture-sheet (visual verification)
+After chart/layout: screenshot(capture, rangeAddress='A1:M50') (visual verification)
 ```

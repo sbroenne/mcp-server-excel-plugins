@@ -1,4 +1,4 @@
-# Behavioral Rules for Excel MCP Operations
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# Behavioral Rules for Excel MCP Operations
 
 These rules ensure efficient and reliable Excel automation. AI assistants should follow these guidelines when executing Excel operations.
 
@@ -141,6 +141,8 @@ Always convert tabular data to Excel Tables (ListObjects):
 - Single-cell parameters (use named ranges instead)
 - Layout areas with merged cells
 - Print-formatted reports with specific spacing
+
+**Named range listing:** `namedrange list` returns visible user-defined names. Hidden/internal Excel names, including Power Query `ExternalData_*` and AutoFilter names, are omitted before value inspection. Large named ranges return metadata without a value preview; use `namedrange read` or `range get-values` when the actual value is needed.
 
 ### Report Results
 
