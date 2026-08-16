@@ -1,4 +1,7 @@
-> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.# slicer - Server Quirks
+> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.
+
+````markdown
+# slicer - Server Quirks
 
 **Slicer Types**:
 
@@ -88,3 +91,5 @@ excelcli slicer create-table-slicer --session <id> --table-name "SalesTable" --c
 excelcli slicer list-slicers --session <id>
 excelcli slicer list-table-slicers --session <id>
 ```
+
+````

@@ -1,9 +1,16 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "excel-cli",
   "version": "1.10.7",
-  "displayName": "Excel CLI Plugin",
   "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
-  "publisher": "sbroenne",
+  "author": {
+    "name": "Stefan Brönner",
+    "email": "3026464+sbroenne@users.noreply.github.com",
+    "url": "https://github.com/sbroenne"
+  },
+  "homepage": "https://excelmcpserver.dev/",
+  "repository": "https://github.com/sbroenne/mcp-server-excel",
+  "license": "MIT",
   "keywords": [
     "excel",
     "windows",
@@ -15,12 +22,5 @@
     "dax",
     "pivottable",
     "ci-cd"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sbroenne/mcp-server-excel-plugins.git"
-  },
-  "homepage": "https://github.com/sbroenne/mcp-server-excel",
-  "license": "MIT",
-  "skills": "skills/"
+  ]
 }
