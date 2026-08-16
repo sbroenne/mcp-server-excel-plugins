@@ -14,6 +14,24 @@
       "source": "./plugins/excel-mcp",
       "description": "Windows-only Excel automation plugin that bootstraps the latest ExcelMcp MCP runtime on first use.",
       "version": "1.10.6",
+      "author": {
+        "name": "Stefan Brönner",
+        "email": "3026464+sbroenne@users.noreply.github.com",
+        "url": "https://github.com/sbroenne"
+      },
+      "homepage": "https://excelmcpserver.dev/",
+      "repository": "https://github.com/sbroenne/mcp-server-excel",
+      "license": "MIT",
+      "keywords": [
+        "excel",
+        "windows",
+        "mcp",
+        "power-query",
+        "dax",
+        "pivottable",
+        "vba",
+        "com-interop"
+      ],
       "skills": [
         "./plugins/excel-mcp/skills/excel-mcp"
       ]
@@ -23,6 +41,26 @@
       "source": "./plugins/excel-cli",
       "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
       "version": "1.10.6",
+      "author": {
+        "name": "Stefan Brönner",
+        "email": "3026464+sbroenne@users.noreply.github.com",
+        "url": "https://github.com/sbroenne"
+      },
+      "homepage": "https://excelmcpserver.dev/",
+      "repository": "https://github.com/sbroenne/mcp-server-excel",
+      "license": "MIT",
+      "keywords": [
+        "excel",
+        "windows",
+        "cli",
+        "automation",
+        "scripting",
+        "batch",
+        "power-query",
+        "dax",
+        "pivottable",
+        "ci-cd"
+      ],
       "skills": [
         "./plugins/excel-cli/skills/excel-cli"
       ]
