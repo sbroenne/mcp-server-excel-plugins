@@ -13,7 +13,7 @@
       "name": "excel-mcp",
       "source": "./plugins/excel-mcp",
       "description": "Windows-only Excel automation plugin that bootstraps the latest ExcelMcp MCP runtime on first use.",
-      "version": "1.10.9",
+      "version": "2.0.0",
       "author": {
         "name": "Stefan Brönner",
         "email": "3026464+sbroenne@users.noreply.github.com",
@@ -40,7 +40,7 @@
       "name": "excel-cli",
       "source": "./plugins/excel-cli",
       "description": "Windows-only Excel automation plugin that bootstraps the latest excelcli runtime on first use.",
-      "version": "1.10.9",
+      "version": "2.0.0",
       "author": {
         "name": "Stefan Brönner",
         "email": "3026464+sbroenne@users.noreply.github.com",
