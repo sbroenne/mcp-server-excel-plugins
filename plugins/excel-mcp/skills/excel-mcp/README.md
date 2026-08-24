@@ -51,9 +51,25 @@ npx skills add sbroenne/mcp-server-excel --skill excel-mcp
 excel-mcp/
 ├── SKILL.md           # Main skill definition with MCP tool guidance
 ├── README.md          # This file
-├── VERSION             # Published plugin version
 └── references/        # Detailed domain-specific guidance
-    └── *.md
+    ├── anti-patterns.md
+    ├── behavioral-rules.md
+    ├── chart.md
+    ├── conditionalformat.md
+    ├── dashboard.md
+    ├── datamodel.md
+    ├── dmv-reference.md
+    ├── excel_agent_mode.md
+    ├── gotchas.md
+    ├── m-code-syntax.md
+    ├── pivottable.md
+    ├── powerquery.md
+    ├── range.md
+    ├── screenshot.md
+    ├── slicer.md
+    ├── table.md
+    ├── window.md
+    └── worksheet.md
 ```
 
 Distributable packages add a `VERSION` file during the build. The canonical skill

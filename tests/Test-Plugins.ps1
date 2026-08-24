@@ -65,17 +65,20 @@ if ($server.args -notcontains '${PLUGIN_ROOT}/bin/start-mcp.ps1') {
 
 foreach ($file in Get-ChildItem (Join-Path $repoRoot "plugins") -Recurse -File -Filter "*.md") {
     $content = Get-Content $file.FullName -Raw
-    $retiredDocumentation = @{
-        "ExcelMcp-CLI-latest-windows.zip" = "nonexistent unversioned CLI release asset"
-        "excel-mcp-server.exe" = "retired MCP executable name"
-        "excel-mcp-bundle.mcpb" = "retired MCPB asset name"
-        "file(action: 'open', filePath" = "retired MCP file path parameter"
-        "file(action: 'close', sessionId" = "retired MCP session parameter"
-    }
+    $retiredDocumentation = @(
+        @{ Pattern = [regex]::Escape("ExcelMcp-CLI-latest-windows.zip"); Description = "nonexistent unversioned CLI release asset" }
+        @{ Pattern = [regex]::Escape("excel-mcp-server.exe"); Description = "retired MCP executable name" }
+        @{ Pattern = [regex]::Escape("excel-mcp-bundle.mcpb"); Description = "retired MCPB asset name" }
+        @{ Pattern = [regex]::Escape("file(action: 'open', filePath"); Description = "retired MCP file path parameter" }
+        @{ Pattern = [regex]::Escape("file(action: 'close', sessionId"); Description = "retired MCP session parameter" }
+        @{ Pattern = '(?<![A-Za-z0-9-])--range-address(?![A-Za-z0-9-])'; Description = "retired CLI range flag" }
+        @{ Pattern = '(?<![A-Za-z0-9-])--sheet-name(?![A-Za-z0-9-])'; Description = "retired CLI worksheet flag" }
+        @{ Pattern = '(?<![A-Za-z0-9-])--source-table-name(?![A-Za-z0-9-])'; Description = "retired CLI PivotTable source flag" }
+    )
 
-    foreach ($entry in $retiredDocumentation.GetEnumerator()) {
-        if ($content.Contains($entry.Key)) {
-            throw "Outdated documentation in $($file.FullName): $($entry.Value)"
+    foreach ($entry in $retiredDocumentation) {
+        if ([regex]::IsMatch($content, $entry.Pattern)) {
+            throw "Outdated documentation in $($file.FullName): $($entry.Description)"
         }
     }
 

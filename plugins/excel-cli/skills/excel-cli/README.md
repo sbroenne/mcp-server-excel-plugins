@@ -63,7 +63,7 @@ npx skills add sbroenne/mcp-server-excel --skill excel-cli
 excel-cli/
 ├── SKILL.md           # Main skill definition with CLI command guidance
 ├── README.md          # This file
-├── VERSION             # Published plugin version
+├── VERSION            # Published plugin version
 └── references/        # CLI command reference and workflow guidance
     └── *.md
 ```
@@ -76,14 +76,19 @@ Windows CLI runtime on first use.
 
 ### Via GitHub Copilot Plugin
 
-Plugin-driven flows can use the bundled wrapper directly. To make `excelcli`
-available on PATH for shell commands, run the optional global shim installer
-from the installed plugin folder:
+Plugin-driven flows use the plugin wrapper and keep runtime state under the
+host-provided `PLUGIN_DATA\runtime` directory. To make `excelcli` available on
+PATH for shell commands, run the optional global shim installer from the
+installed plugin folder:
 
 ```powershell
 pwsh -ExecutionPolicy Bypass -File `
   "$env:USERPROFILE\.copilot\installed-plugins\mcp-server-excel-plugins\excel-cli\com.github.copilot\bin\install-global.ps1"
 ```
+
+The global shim runs outside the plugin host, uses
+`~\.copilot\plugin-runtime\mcp-server-excel\excel-cli`, and checks for updates
+at most once every 24 hours.
 
 ### Via Skill Package
 
