@@ -63,20 +63,26 @@ npx skills add sbroenne/mcp-server-excel --skill excel-cli
 excel-cli/
 ├── SKILL.md           # Main skill definition with CLI command guidance
 ├── README.md          # This file
-└── references/        # Exact CLI command/action/flag reference
-    └── cli-commands.md
+├── VERSION             # Published plugin version
+└── references/        # CLI command reference and workflow guidance
+    └── *.md
 ```
 
 ## CLI Tool Installation
 
-The **GitHub Copilot `excel-cli` plugin** installs the skill package only.
+The **GitHub Copilot `excel-cli` plugin** installs the skill plus a runtime
+bootstrap wrapper. The wrapper downloads and caches the latest self-contained
+Windows CLI runtime on first use.
 
 ### Via GitHub Copilot Plugin
 
-If you install `excel-cli` through the GitHub Copilot plugin marketplace, install `excelcli` separately and keep using the plugin for workflow guidance:
+Plugin-driven flows can use the bundled wrapper directly. To make `excelcli`
+available on PATH for shell commands, run the optional global shim installer
+from the installed plugin folder:
 
 ```powershell
-dotnet tool install --global Sbroenne.ExcelMcp.CLI
+pwsh -ExecutionPolicy Bypass -File `
+  "$env:USERPROFILE\.copilot\installed-plugins\mcp-server-excel-plugins\excel-cli\com.github.copilot\bin\install-global.ps1"
 ```
 
 ### Via Skill Package
@@ -108,6 +114,6 @@ excelcli --help
 
 ## Related
 
-- [Excel MCP Skill](../excel-mcp/SKILL.md) - For conversational AI (Claude Desktop, VS Code Chat)
+- [Excel MCP Skill](https://github.com/sbroenne/mcp-server-excel-plugins/tree/main/plugins/excel-mcp/skills/excel-mcp) - For conversational AI (Claude Desktop, VS Code Chat)
 - [Documentation](https://excelmcpserver.dev/)
 - [GitHub Repository](https://github.com/sbroenne/mcp-server-excel)
