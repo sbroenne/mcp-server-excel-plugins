@@ -261,9 +261,9 @@ Opening files without closing them:
 ```
 WRONG: Session accumulation
 
-file(action: 'open', filePath: 'file1.xlsx')  // Session 1
-file(action: 'open', filePath: 'file2.xlsx')  // Session 2
-file(action: 'open', filePath: 'file3.xlsx')  // Session 3
+file(action: 'open', path: 'file1.xlsx')  // Session 1
+file(action: 'open', path: 'file2.xlsx')  // Session 2
+file(action: 'open', path: 'file3.xlsx')  // Session 3
 // ... never closed
 ```
 
@@ -282,11 +282,11 @@ CORRECT: Proper lifecycle
 
 session1 = file(action: 'open', path: 'file1.xlsx')
 // ... work with file1 ...
-file(action: 'close', sessionId: session1, save: true)
+file(action: 'close', session_id: session1, save: true)
 
 session2 = file(action: 'open', path: 'file2.xlsx')
 // ... work with file2 ...
-file(action: 'close', sessionId: session2, save: true)
+file(action: 'close', session_id: session2, save: true)
 ```
 
 ## Ignoring Error Context Anti-Pattern

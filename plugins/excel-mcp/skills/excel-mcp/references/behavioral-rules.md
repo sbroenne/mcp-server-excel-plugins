@@ -181,9 +181,9 @@ authentication occurs; open them with a visible session.
 Always close sessions when done:
 
 ```
-1. file(action: 'open', path: '...')  → sessionId
-2. All operations use sessionId
-3. file(action: 'close', sessionId: '...', save: true)  → saves and closes
+1. file(action: 'open', path: '...')  → session ID
+2. All operations use the returned session ID
+3. file(action: 'close', session_id: '...', save: true)  → saves and closes
 ```
 
 **Why**: Unclosed sessions leave Excel processes running, consuming memory and locking files.

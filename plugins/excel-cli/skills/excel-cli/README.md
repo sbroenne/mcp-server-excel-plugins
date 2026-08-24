@@ -91,13 +91,9 @@ Plain skill-only installs still need `excelcli` available separately on PATH (fo
 
 ### Manual Download (Standalone)
 
-For other environments, download the standalone CLI:
-```powershell
-# Download from releases
-$url = "https://github.com/sbroenne/mcp-server-excel/releases/latest/download/ExcelMcp-CLI-latest-windows.zip"
-Invoke-WebRequest -Uri $url -OutFile ExcelMcp-CLI.zip
-Expand-Archive -Path ExcelMcp-CLI.zip -DestinationPath $env:ProgramFiles\ExcelMcp
-```
+For other environments, download `ExcelMcp-CLI-{version}-windows.zip` from the
+[latest release](https://github.com/sbroenne/mcp-server-excel/releases/latest),
+extract it to a permanent directory, and add that directory to PATH.
 
 ### Via NuGet Package Manager (Secondary)
 

@@ -65,6 +65,20 @@ if ($server.args -notcontains '${PLUGIN_ROOT}/bin/start-mcp.ps1') {
 
 foreach ($file in Get-ChildItem (Join-Path $repoRoot "plugins") -Recurse -File -Filter "*.md") {
     $content = Get-Content $file.FullName -Raw
+    $retiredDocumentation = @{
+        "ExcelMcp-CLI-latest-windows.zip" = "nonexistent unversioned CLI release asset"
+        "excel-mcp-server.exe" = "retired MCP executable name"
+        "excel-mcp-bundle.mcpb" = "retired MCPB asset name"
+        "file(action: 'open', filePath" = "retired MCP file path parameter"
+        "file(action: 'close', sessionId" = "retired MCP session parameter"
+    }
+
+    foreach ($entry in $retiredDocumentation.GetEnumerator()) {
+        if ($content.Contains($entry.Key)) {
+            throw "Outdated documentation in $($file.FullName): $($entry.Value)"
+        }
+    }
+
     $matches = [regex]::Matches(
         $content,
         '\[[^\]]+\]\((?!https?://|#|mailto:)([^)#]+)(?:#[^)]+)?\)')
