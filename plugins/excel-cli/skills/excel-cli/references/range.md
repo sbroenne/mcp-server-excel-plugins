@@ -20,6 +20,18 @@ If you are looking for percentage, currency, date, or text display formatting, u
 If you are looking for auto-fit, width, height, borders, fill, or font styling, use `range_format`.
 If you need the same styling on multiple non-contiguous ranges, use `format-ranges` instead of repeating `format-range`.
 
+## Formula Errors in Range Reads
+
+`get-values` and `get-formulas` return formula errors in their `values` arrays as
+canonical Excel names such as `#REF!`, `#N/A`, and `#DIV/0!`, not raw negative
+COM integers. Both results also include cell error details with the affected
+cell, full formula text when Excel exposes it, raw error code, explanation,
+and suggested fix.
+
+Excel COM does not reliably identify the exact broken part of a reference.
+Use the returned cell address and full formula rather than inferring a
+sub-reference that Excel did not provide.
+
 ## Quick Pattern: Write, Format, Auto-Fit
 
 ```
@@ -27,6 +39,10 @@ range(action: 'set-values', range_address: 'A1:D4', values: [[...], [...]])
 range(action: 'set-number-format', range_address: 'C2:D4', format_code: '$#,##0.00')
 range_format(action: 'auto-fit-columns', range_address: 'A:D')
 ```
+
+## Writes to Merged Cells
+
+`set-values` and `set-formulas` reject writes that include merged cells unless the target is only the merged range's top-left cell. The error lists the affected merged ranges. Write to that top-left cell when changing one merged value, or unmerge the range before writing a larger grid.
 
 ## Quick Pattern: Repeated Section Headers
 
