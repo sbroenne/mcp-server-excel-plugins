@@ -45,10 +45,10 @@ Extract to your AI assistant's skills directory:
 Or use npx:
 ```powershell
 # Interactive - prompts to select excel-cli, excel-mcp, or both
-npx skills add sbroenne/mcp-server-excel
+npx skills add sbroenne/mcp-server-excel-plugins
 
 # Or specify directly
-npx skills add sbroenne/mcp-server-excel --skill excel-cli
+npx skills add https://github.com/sbroenne/mcp-server-excel-plugins/tree/main/plugins/excel-cli/skills/excel-cli
 ```
 
 ## Contents
