@@ -1,5 +1,3 @@
-> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.
-
 # querytable - Local Text and Web Imports
 
 Use `querytable` for worksheet QueryTables backed by the desktop Excel COM object model.
@@ -15,17 +13,13 @@ Use `querytable` for worksheet QueryTables backed by the desktop Excel COM objec
 
 ## Text Import
 
-```text
-querytable(action: 'create-text',
-    query_table_name: 'OrdersCsv',
-    source_path: 'C:\Data\orders.csv',
-    sheet_name: 'Orders',
-    destination_address: 'A1',
-    delimiter: ',',
-    text_qualifier: 'double-quote',
-    encoding: 65001,
-    has_headers: true)
+
+```powershell
+excelcli -q querytable create-text --session $sessionId --query-table-name OrdersCsv --source-path $sourcePath --sheet Orders --destination-address A1 --delimiter ',' --text-qualifier double-quote --encoding 65001 --has-headers true
 ```
+
+Use a known readable source path and an existing destination sheet. The example
+names are illustrative; use the actual target and inspect occupied cells first.
 
 - `delimiter` is exactly one character.
 - `text_qualifier` is `double-quote`, `single-quote`, or `none`.
@@ -34,16 +28,12 @@ querytable(action: 'create-text',
 
 ## Legacy Web Import
 
-```text
-querytable(action: 'create-web',
-    query_table_name: 'RatesHtml',
-    url: 'https://example.com/rates.html',
-    sheet_name: 'Rates',
-    destination_address: 'A1',
-    selection_type: 'specified-tables',
-    web_tables: '1',
-    formatting: 'none')
+
+```powershell
+excelcli -q querytable create-web --session $sessionId --query-table-name RatesHtml --url $sourceUrl --sheet Rates --destination-address A1 --selection-type specified-tables --web-tables '1' --formatting none
 ```
+
+The source URL must identify the user's intended HTML page, not a guessed site.
 
 - `selection_type` is `entire-page`, `all-tables`, or `specified-tables`.
 - `web_tables` is required with `specified-tables`.

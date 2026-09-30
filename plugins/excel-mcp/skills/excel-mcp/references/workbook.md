@@ -1,6 +1,13 @@
 # Workbook Lifecycle
 
-Use the `workbook` tool or CLI command group for workbook-level metadata, file variants, publishing, and external links. Use `file` only for opening, creating, listing, and closing sessions.
+Use workbook operations for metadata, file variants, publishing, and external
+links. Session lifecycle is separate.
+
+```text
+workbook(action: 'get-info', session_id: sessionId)
+workbook(action: 'list-external-links', session_id: sessionId)
+```
+
 
 ## Metadata and document properties
 

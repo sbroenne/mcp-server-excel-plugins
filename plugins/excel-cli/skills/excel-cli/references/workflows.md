@@ -1,5 +1,3 @@
-> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.
-
 # Excel MCP Server - Key Constraints
 
 These are the critical constraints and workarounds specific to Excel automation via COM.
@@ -25,7 +23,8 @@ Excel's Power Pivot has key limitations compared to Power BI/SSAS:
 | Relationships | Star schema structure | Rarely |
 | DAX | Business calculations, aggregations | Frequently |
 
-**Why separate?** DAX measures recalculate on refresh without re-running Power Query. Useful when lookup/rate tables change often.
+Power Query prepares stored model data; DAX evaluates measures in the query's
+filter context. Refresh source data when it changes before relying on DAX results.
 
 ## Tool Sequencing
 
@@ -40,10 +39,12 @@ Skipping step 1 causes "table not found" errors.
 ### Power Query Development Lifecycle
 ```
 1. powerquery evaluate (test M code without persisting - catches errors early)
-2. powerquery create/update (store validated query in workbook)
-3. powerquery refresh/load-to (load data to destination)
+2. powerquery create (stores and loads the selected destination) or update (refreshes by default)
+3. load-to if changing destinations; refresh when loaded data needs updating
 ```
-Skipping step 1 causes broken queries in workbook and cryptic COM errors.
+Prefer evaluate for new or changed code; trivial or already-validated code with
+unchanged dependencies does not need redundant evaluation. Persisting untested
+code can leave a broken query in the workbook.
 
 ### Parameter Setup for Power Query
 ```
@@ -60,5 +61,5 @@ After Power Query: powerquery list, powerquery view
 After refresh:     datamodel list-tables
 After measure:     datamodel list-measures, datamodel evaluate
 After relationship: datamodel_relationship list-relationships
-After chart/layout: screenshot(capture, range_address='A1:M50') (visual verification)
+After chart/layout: chart read and overlap warnings; screenshot when an interactive desktop is available
 ```

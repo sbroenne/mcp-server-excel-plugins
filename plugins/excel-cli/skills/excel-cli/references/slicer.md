@@ -1,92 +1,42 @@
-> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.
+# Slicers
 
-# slicer - Server Quirks
+PivotTable slicers filter their connected PivotTables. Table slicers filter one
+Excel Table. Filtering source-table rows does not automatically filter a
+separate PivotTable cache. Use the matching creation, listing, selection, and
+deletion actions for each type.
 
-**Slicer Types**:
+## Required creation inputs
 
-Two distinct slicer types exist:
-- **PivotTable Slicers**: Filter PivotTables (can control multiple PivotTables)
-- **Table Slicers**: Filter Excel Tables (single table only)
+Every creation needs a session, a unique slicer name, a destination worksheet, and
+a cell position for its top-left corner. Names and positions are **not**
+generated automatically.
 
-**Actions**:
+PivotTable slicers additionally need the PivotTable name and field name.
+Table slicers need the Table name and column name. Inspect the relevant slicer
+list and source fields before creating one. The destination sheet must exist.
 
-| Action | Description | Required Parameters |
-|--------|-------------|---------------------|
-| `create-slicer` | Create PivotTable slicer | pivot_table_name, field_name |
-| `list-slicers` | List all PivotTable slicers | (none) |
-| `set-slicer-selection` | Set PivotTable slicer filter | slicer_name, selected_items |
-| `delete-slicer` | Delete PivotTable slicer | slicer_name |
-| `create-table-slicer` | Create Table slicer | table_name, column_name |
-| `list-table-slicers` | List all Table slicers | (none) |
-| `set-table-slicer-selection` | Set Table slicer filter | slicer_name, selected_items |
-| `delete-table-slicer` | Delete Table slicer | slicer_name |
+These examples assume the session, `SalesPivot`, `SalesData`, and `Analysis` sheet
+already exist. Check each result before proceeding.
 
-**CRITICAL: Required Parameters** - The "Required Parameters" column above is strict. Missing any required parameter will cause an error. Pay special attention to `pivot_table_name` for PivotTable slicers and `slicer_name` for selection/deletion operations.
-
-**Naming Convention**:
-
-- If `slicer_name` is not provided, the tool auto-generates `{FieldName}Slicer` or `{ColumnName}Slicer`
-- Slicer names must be unique within workbook
-- Use `list-slicers` or `list-table-slicers` to check existing names
-
-**Selection Behavior**:
-
-- `selected_items` is a list of strings: `["Value1", "Value2"]`
-- Empty list `[]` clears all filters (shows all items)
-- Values must match exactly (case-sensitive)
-- Invalid values are silently ignored
-
-**CLI: JSON Array Quoting** (important for `--selected-items`):
-
-The `--selected-items` parameter requires a JSON array. Use proper shell escaping:
 
 ```powershell
-# PowerShell: use single quotes around the JSON, double quotes inside
---selected-items '["West","East"]'
-
-# Or escape inner quotes with backtick
---selected-items "[`"West`",`"East`"]"
-
-# Clear filter (show all items)
---selected-items '[]'
+excelcli -q slicer create-slicer --session $sessionId --pivot-table-name SalesPivot --field-name Region --slicer-name RegionSlicer --destination-sheet Analysis --position E2
+excelcli -q slicer set-slicer-selection --session $sessionId --slicer-name RegionSlicer --selected-items '["North"]'
+excelcli -q slicer create-table-slicer --session $sessionId --table-name SalesData --column-name Product --slicer-name ProductSlicer --destination-sheet Analysis --position H2
+excelcli -q slicer set-table-slicer-selection --session $sessionId --slicer-name ProductSlicer --selected-items '["Laptop"]'
 ```
 
-**Positioning**:
+## Selection and verification
 
-- `destination_sheet` specifies which worksheet hosts the slicer
-- `position` is a cell address for top-left corner (e.g., `'E1'`, `'G5'`)
-- The slicer's top-left corner aligns to the specified cell
-- Default position if not specified: Excel chooses
+Selections are JSON-array **text**, such as `'["North","South"]'`, not a native
+array argument in MCP. `'[]'` clears the filter. The default replaces the
+selection; disabling clear-first adds to it. The implementation compares names
+case-insensitively, but use the actual item names returned by Excel.
 
-**Common Mistakes**:
+Unmatched values are not individually rejected, and Excel may retain a selection
+when asked to deselect every item. Never infer success from the requested values:
+read the slicer selection and the filtered Table rows or PivotTable data.
+Check combined filters together. Deleting a slicer is not the same operation as
+clearing its filter; explicitly clear first if that is the intended result.
 
-- Creating slicer for field not in PivotTable → Error
-- Creating table slicer for column not in table → Error
-- Setting selection with wrong case → Values ignored (filter shows nothing)
-- Deleting slicer that doesn't exist → Error
-
-**Best Practices**:
-
-1. Call `list-slicers` before creating to avoid name conflicts
-2. Use `list-slicers` to get exact slicer names for selection/deletion
-3. Multi-PivotTable filtering: Create one slicer, connect to multiple PivotTables in Excel UI
-
-**CLI Usage**:
-
-```powershell
-# Create PivotTable slicer
-excelcli slicer create-slicer --session <id> --pivot-table-name "SalesPivot" --field-name "Region" --destination-sheet "Dashboard"
-
-# Set slicer filter
-excelcli slicer set-slicer-selection --session <id> --slicer-name "RegionSlicer" --selected-items "[`"West`",`"East`"]"
-
-# Clear slicer filter (show all)
-excelcli slicer set-slicer-selection --session <id> --slicer-name "RegionSlicer" --selected-items "[]"
-
-# Create Table slicer
-excelcli slicer create-table-slicer --session <id> --table-name "SalesTable" --column-name "Category"
-
-# List all slicers
-excelcli slicer list-slicers --session <id>
-excelcli slicer list-table-slicers --session <id>
-```
+Read [PivotTable guidance](pivottable.md) for source refresh and field setup.

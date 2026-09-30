@@ -1,5 +1,3 @@
-> **CLI syntax note:** This shared domain guide may use MCP-style `tool(action: ...)` examples as conceptual shorthand. Do not translate or paste those calls mechanically. Use the exact commands and kebab-case options in [cli-commands.md](./cli-commands.md) or live `--help`; notably, MCP `file` open/close maps to CLI `session` open/close, and MCP `worksheet` maps to CLI `sheet`.
-
 # drawing - Server Quirks
 
 Use `drawing` for worksheet images, AutoShapes, text boxes, connectors, safe Forms controls, and sparklines.
@@ -45,7 +43,8 @@ Use `add-sparkline`, `get-sparkline`, `list-sparklines`, `update-sparkline`, and
 - `location_range`: cells that host the sparklines
 - Line sparklines can show markers
 
+
 ```powershell
-excelcli drawing add-shape --session <id> --sheet "Dashboard" --shape-type RoundedRectangle --name "Status" --text "Ready" --fill-color "#70AD47"
-excelcli drawing add-sparkline --session <id> --sheet "Dashboard" --source-range "B2:E2" --location-range "F2" --sparkline-type Line
+excelcli -q drawing add-shape --session $sessionId --sheet Dashboard --shape-type RoundedRectangle --name Status --text Ready --fill-color '#70AD47'
+excelcli -q drawing add-sparkline --session $sessionId --sheet Dashboard --source-range B2:E2 --location-range F2 --sparkline-type Line
 ```
