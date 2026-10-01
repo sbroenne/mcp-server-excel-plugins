@@ -20,6 +20,7 @@ Read the guide for the task at hand; command details are discovered from the ins
 - [querytable - Local Text and Web Imports](querytable.md)
 - [Ranges and formatting](range.md)
 - [Excel CLI References](README.md)
+- [Report formatting](report-formatting.md)
 - [Screenshots and Visual Verification](screenshot.md)
 - [Slicers](slicer.md)
 - [table - Server Quirks](table.md)
