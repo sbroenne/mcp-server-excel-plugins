@@ -1,9 +1,6 @@
 {
   "name": "mcp-server-excel-plugins",
-  "metadata": {
-    "description": "Windows-only GitHub Copilot CLI plugins for Excel automation with ExcelMcp.",
-    "version": "1.0.0"
-  },
+  "description": "Windows-only Claude Code plugins for Excel automation with ExcelMcp.",
   "owner": {
     "name": "Stefan Brönner",
     "email": "3026464+sbroenne@users.noreply.github.com"
@@ -32,9 +29,16 @@
         "vba",
         "com-interop"
       ],
-      "skills": [
-        "./plugins/excel-mcp/skills/excel-mcp-report-formatting"
-      ]
+      "mcpServers": {
+        "excel-mcp": {
+          "type": "stdio",
+          "command": "npx",
+          "args": [
+            "-y",
+            "@sbroenne/mcp-server-excel@latest"
+          ]
+        }
+      }
     },
     {
       "name": "excel-cli",
@@ -60,10 +64,6 @@
         "dax",
         "pivottable",
         "ci-cd"
-      ],
-      "skills": [
-        "./plugins/excel-cli/skills/excel-cli",
-        "./plugins/excel-cli/skills/excel-cli-report-formatting"
       ]
     }
   ]
