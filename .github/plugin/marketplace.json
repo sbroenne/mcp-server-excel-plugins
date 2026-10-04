@@ -13,7 +13,7 @@
       "name": "excel-mcp",
       "source": "./plugins/excel-mcp",
       "description": "Windows-only Excel automation plugin that runs the latest ExcelMcp MCP server through npx.",
-      "version": "2.1.3",
+      "version": "2.2.0",
       "author": {
         "name": "Stefan Brönner",
         "email": "3026464+sbroenne@users.noreply.github.com",
@@ -33,14 +33,14 @@
         "com-interop"
       ],
       "skills": [
-        "./plugins/excel-mcp/skills/excel-mcp"
+        "./plugins/excel-mcp/skills/excel-mcp-report-formatting"
       ]
     },
     {
       "name": "excel-cli",
       "source": "./plugins/excel-cli",
       "description": "Windows-only Excel automation plugin that runs the latest excelcli package through npx.",
-      "version": "2.1.3",
+      "version": "2.2.0",
       "author": {
         "name": "Stefan Brönner",
         "email": "3026464+sbroenne@users.noreply.github.com",
@@ -62,7 +62,7 @@
         "ci-cd"
       ],
       "skills": [
-        "./plugins/excel-cli/skills/excel-cli"
+        "./plugins/excel-cli/skills/excel-cli-report-formatting"
       ]
     }
   ]
