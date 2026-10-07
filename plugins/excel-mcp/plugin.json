@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "excel-mcp",
-  "version": "2.3.3",
-  "description": "Windows-only Excel automation plugin that runs the latest ExcelMcp MCP server through npx.",
+  "version": "2.3.6",
+  "description": "Automate Microsoft Excel from chat with rich MCP tools for workbooks, formulas, Power Query, PivotTables, charts, and more. Requires Windows and desktop Excel.",
   "author": {
     "name": "Stefan Brönner",
     "email": "3026464+sbroenne@users.noreply.github.com",
