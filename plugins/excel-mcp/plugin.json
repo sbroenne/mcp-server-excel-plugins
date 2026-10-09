@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "excel-mcp",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "description": "Automate Microsoft Excel from chat with rich MCP tools for workbooks, formulas, Power Query, PivotTables, charts, and more. Requires Windows and desktop Excel.",
   "author": {
     "name": "Stefan Brönner",
