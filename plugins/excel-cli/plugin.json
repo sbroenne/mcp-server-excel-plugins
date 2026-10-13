@@ -1,11 +1,11 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "excel-cli",
-  "version": "2.3.12",
+  "version": "2.4.0",
   "description": "Let your coding agent work with real Microsoft Excel workbooks from the terminal: formulas, Power Query, PivotTables, charts, and VBA. Same features as Excel MCP, usually with fewer AI tokens. Requires Windows, desktop Excel 2016 or later, and Node.js 18 or later.",
   "author": {
-    "name": "Stefan Brönner",
-    "email": "3026464+sbroenne@users.noreply.github.com",
+    "name": "Stefan Br\u00F6nner",
+    "email": "3026464\u002Bsbroenne@users.noreply.github.com",
     "url": "https://github.com/sbroenne"
   },
   "homepage": "https://excelmcpserver.dev/",
