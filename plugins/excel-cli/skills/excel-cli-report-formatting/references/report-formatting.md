@@ -76,12 +76,12 @@ Check each result before the next step; a failed sequence is not rolled back.
 
 
 ```powershell
-excelcli -q rangeformat format --session $sessionId --sheet Report --range-addresses A1:C1 --format-options '{"bold":true,"fillColor":"#4472C4","fontColor":"#FFFFFF"}'
-excelcli -q range set-number-format --session $sessionId --sheet Report --range B2:B21 --format-code '$#,##0.00'
-excelcli -q range set-number-format --session $sessionId --sheet Report --range C2:C21 --format-code '0.0%'
-excelcli -q rangeformat format --session $sessionId --sheet Report --range-addresses B2:C21 --format-options '{"horizontalAlignment":"right"}'
-excelcli -q rangeformat auto-fit-columns --session $sessionId --sheet Report --range A:C
-excelcli -q window freeze-panes --session $sessionId --sheet Report --frozen-rows 1
+excelcli -q rangeformat format --session $sessionId --sheet-name Report --range-addresses A1:C1 --format-options '{"bold":true,"fillColor":"#4472C4","fontColor":"#FFFFFF"}'
+excelcli -q range set-number-format --session $sessionId --sheet-name Report --range-address B2:B21 --format-code '$#,##0.00'
+excelcli -q range set-number-format --session $sessionId --sheet-name Report --range-address C2:C21 --format-code '0.0%'
+excelcli -q rangeformat format --session $sessionId --sheet-name Report --range-addresses B2:C21 --format-options '{"horizontalAlignment":"right"}'
+excelcli -q rangeformat auto-fit-columns --session $sessionId --sheet-name Report --range-address A:C
+excelcli -q window freeze-panes --session $sessionId --sheet-name Report --frozen-rows 1
 ```
 
 ## Optional financial-model conventions
